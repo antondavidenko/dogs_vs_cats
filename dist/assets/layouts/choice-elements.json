@@ -1,0 +1,12 @@
+[
+  { "id": "background", "type": "image", "key": "background" },
+  { "id": "button", "type": "image", "key": "button" },
+  { "id": "buttonText", "type": "text", "key": "buttonText", "style": "buttonTextStyle" },
+  { "id": "selectText", "type": "text", "key": "selectText", "style": "selectTextStyle" },
+  { "id": "headerText", "type": "text", "key": "headerText", "style": "headerTextStyle" },
+  { "id": "backgroundCat", "type": "image", "key": "backgroundCat" },
+  { "id": "avatarCat", "type": "image", "key": "avatarCat" },
+  { "id": "backgroundDog", "type": "image", "key": "backgroundDog" },
+  { "id": "avatarDog", "type": "image", "key": "avatarDog" },
+  { "id": "avatarSelection", "type": "image", "key": "avatarSelection" }
+]

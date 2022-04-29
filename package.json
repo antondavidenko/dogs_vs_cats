@@ -1,0 +1,40 @@
+{
+  "name": "dogs_vs_cats",
+  "version": "0.0.1",
+  "description": "Dogs vs Cats",
+  "author": "Anton Davidenko",
+  "main": "index.js",
+  "scripts": {
+    "layout-export:choice": "node node_modules\\@antondavidenko\\layout-tools-export-psd\\build\\index.js choice",
+    "start": "webpack",
+    "build": "webpack --config webpack.production.config.js",
+    "lint": "eslint --ext .js,.ts src/",
+    "lint:fix": "eslint --ext .js,.ts src/ --fix"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@antondavidenko/layout-tools-export-psd": "^0.0.2",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-typescript": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "awesome-typescript-loader": "^4.0.1",
+    "babel-loader": "8.0.2",
+    "browser-sync": "^2.18.13",
+    "browser-sync-webpack-plugin": "^1.2.0",
+    "raw-loader": "^0.5.1",
+    "typescript": "^3.1.6",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.1",
+    "webpack": "3.11.0"
+  },
+  "dependencies": {
+    "@antondavidenko/layout-phaser3": "^0.0.2",
+    "phaser": "3.55.2"
+  }
+}

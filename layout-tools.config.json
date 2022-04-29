@@ -1,0 +1,6 @@
+{
+  "srcFolder": "src\\assets",
+  "assetsFolder": "dist\\assets\\layouts",
+  "l10nFolder": "dist\\assets\\l10n",
+  "typesFolder": "src\\model\\layouts"
+}

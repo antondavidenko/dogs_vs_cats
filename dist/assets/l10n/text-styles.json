@@ -1,0 +1,17 @@
+[
+  { "id": "headerTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#3e433e",
+    "align": "center"
+  },
+  { "id": "selectTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#3e433e",
+    "align": "center"
+  },
+  { "id": "buttonTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#3e433e",
+    "align": "center"
+  }
+]
