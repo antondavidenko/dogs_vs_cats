@@ -1,5 +1,6 @@
 import { PlayerComponent, FpsMeterComponent, PlatformerHudComponent, BackgroundComponent } from '../components';
-import { createPlatforms, createTilemapObjectsLayer } from '../utils/tilemap.factories';
+import { createPlatforms, createTilemapObjectsLayer, promiseDelay } from '../utils';
+import { ScenesList } from './scenes-list';
 
 export class PlatformerScene extends Phaser.Scene {
 
@@ -12,15 +13,17 @@ export class PlatformerScene extends Phaser.Scene {
   private hud: PlatformerHudComponent;
   private platformerData;
   private fpsMeter: FpsMeterComponent;
+  private lastTime = 0;
 
   constructor() {
-    super('PlatformerScene');
+    super(ScenesList.PlatformerScene);
   }
 
   init(data) {
     this.character = data.character;
     this.player = new PlayerComponent(this);
     this.background = new BackgroundComponent(this);
+    this.platformerData = { max: 0, collected: 0, life: 3 };
   }
 
   preload() {
@@ -32,7 +35,7 @@ export class PlatformerScene extends Phaser.Scene {
   }
 
   create() {
-    this.physics.world.setFPS(3000);
+    this.physics.world.setFPS(300);
 
     const map = this.make.tilemap({ key: 'map' });
 
@@ -44,16 +47,16 @@ export class PlatformerScene extends Phaser.Scene {
     this.platforms = createPlatforms(map);
     this.spikes = createTilemapObjectsLayer(map, this, 'Spikes', 2);
     this.coins = createTilemapObjectsLayer(map, this, 'Coins', 2);
+    this.platformerData.max = this.coins.children.entries.length;
     createTilemapObjectsLayer(map, this, 'Decor', 1);
 
-    this.platformerData = { max: this.coins.children.entries.length, collected: 0 };
     this.hud = new PlatformerHudComponent(this);
 
-    this.physics.add.collider(this.player.player, this.spikes, this.player.hit, null, this.player);
+    this.physics.add.collider(this.player.player, this.spikes, this.hit, null, this);
     this.physics.add.collider(this.player.player, this.coins, this.collect, null, this);
     this.physics.add.collider(this.player.player, this.platforms);
 
-    this.fpsMeter = new FpsMeterComponent(this);
+    this.fpsMeter = new FpsMeterComponent(this, false);
   }
 
   update() {
@@ -67,7 +70,24 @@ export class PlatformerScene extends Phaser.Scene {
     this.hud.update();
   }
 
-  private collect(player, item) {
+  private async hit() {
+    if (new Date().getTime() - this.lastTime > 100) {
+      if (this.platformerData.life > 0) {
+        this.platformerData.life--;
+      }
+      if (this.platformerData.life > 0) {
+        this.player.respawn();
+        this.player.blinking();
+      } else if (this.player.player.visible) {
+        this.player.player.visible = false;
+        await promiseDelay(500);
+        this.scene.start(ScenesList.EndScene);
+      }
+    }
+    this.lastTime = new Date().getTime();
+  }
+
+  private collect(player, item): void {
     item.destroy();
     this.platformerData.collected++;
   }

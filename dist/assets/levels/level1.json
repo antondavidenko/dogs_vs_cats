@@ -2156,7 +2156,6 @@
         {
          "draworder":"topdown",
          "id":3,
-         "locked":true,
          "name":"Spikes",
          "objects":[
                 {
@@ -2218,6 +2217,18 @@
                  "width":64,
                  "x":1152,
                  "y":512
+                }, 
+                {
+                 "gid":71,
+                 "height":64,
+                 "id":196,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":448,
+                 "y":1856
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2228,6 +2239,7 @@
         {
          "draworder":"topdown",
          "id":12,
+         "locked":true,
          "name":"Coins",
          "objects":[
                 {
@@ -2359,6 +2371,7 @@
         {
          "draworder":"topdown",
          "id":13,
+         "locked":true,
          "name":"Respawn",
          "objects":[
                 {
@@ -2380,7 +2393,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":196,
+ "nextobjectid":197,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

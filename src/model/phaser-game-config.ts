@@ -1,5 +1,4 @@
-import { ChoiceScene } from '../scenes/choice.scene';
-import { PlatformerScene } from '../scenes/platformer.scene';
+import { ChoiceScene, PlatformerScene, EndScene } from '../scenes';
 
 export const PHASER_GAME_CONFIG = {
   type: Phaser.AUTO,
@@ -13,7 +12,7 @@ export const PHASER_GAME_CONFIG = {
     width: 640,
     height: 480,
   },
-  scene: [ChoiceScene, PlatformerScene],
+  scene: [ChoiceScene, PlatformerScene, EndScene],
   physics: {
     default: 'arcade',
     arcade: {

@@ -1,6 +1,6 @@
 @font-face {
   font-family: gamefont;
-  src: url('./assets/gamefont.otf');
+  src: url('./assets/gamefont.ttf');
 }
 
 .game-container {
