@@ -1,4 +1,5 @@
-[
+[ 
+  { "id": "infoText", "text": "RESULT", "size": "40" },
   { "id": "headerText", "text": "DOGS VS CATS", "size": "70" },
   { "id": "selectText", "text": "SELECT CHARACTER", "size": "40" },
   { "id": "buttonText", "text": "START", "size": "40" }

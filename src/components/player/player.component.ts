@@ -1,36 +1,40 @@
 import { createOneFrameAnimation, createMultiFramesAnimation } from '../../utils';
-import { CharacterStates, PLAYER_VELOCITY } from './player.model';
+import { CharacterStates, PlayerAssetsModel, PLAYER_VELOCITY } from './player.model';
 
 export class PlayerComponent {
 
   public player;
   private respawnPoint: Phaser.Geom.Point;
-  private state: CharacterStates = CharacterStates.NORMAL;
+  private playerState: CharacterStates = CharacterStates.NORMAL;
+  private assetsModel: PlayerAssetsModel;
 
-  constructor(private scene: Phaser.Scene) { }
-
-  preload(character): void {
-    const frame96 = { frameWidth: 96, frameHeight: 96 };
-    this.scene.load.spritesheet('player', `assets/images/player_${character}.png`, frame96);
+  constructor(private scene: Phaser.Scene, private assetId) {
+    this.assetsModel = new PlayerAssetsModel(this.assetId);
   }
 
-  create(respawnPoint: {x: number, y: number}): void {
+  preload(): void {
+    const frame96 = { frameWidth: 96, frameHeight: 96 };
+    this.scene.load.spritesheet(this.assetsModel.atlasId, `assets/images/player_${this.assetId}.png`, frame96);
+  }
+
+  create(respawnPoint: Phaser.Geom.Point): void {
     const { x, y } = respawnPoint;
     this.respawnPoint = new Phaser.Geom.Point(x + 34, y + 18);
-    this.player = this.scene.physics.add.sprite(this.respawnPoint.x, this.respawnPoint.y, 'player');
+    // eslint-disable-next-line max-len
+    this.player = this.scene.physics.add.sprite(this.respawnPoint.x, this.respawnPoint.y, this.assetsModel.atlasId);
     this.player.setBounce(0.2);
     this.player.body.width = 60;
     this.player.body.height = 60;
     this.player.body.offset = { x: 18, y: 36 };
     this.player.setDepth(10);
 
-    createOneFrameAnimation(this.scene, 'idle', 0);
-    createOneFrameAnimation(this.scene, 'jump', 1);
-    createMultiFramesAnimation(this.scene, 'walk', 2, 3);
+    createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('idle'), 0, this.assetsModel.atlasId);
+    createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('jump'), 1, this.assetsModel.atlasId);
+    createMultiFramesAnimation(this.scene, this.assetsModel.getAnimationId('walk'), 2, 3, this.assetsModel.atlasId);
   }
 
   update() {
-    if (this.player.visible) {
+    if (this.state === CharacterStates.NORMAL || this.state === CharacterStates.BLINK) {
       this.move();
     } else {
       this.player.setVelocity(0, 0);
@@ -43,16 +47,31 @@ export class PlayerComponent {
       .setX(this.respawnPoint.x)
       .setY(this.respawnPoint.y)
       .setAlpha(0)
-      .play('idle', true);
+      .play(this.assetsModel.getAnimationId('idle'), true);
   }
 
-  blinking() {
+  get state(): CharacterStates {
+    return this.playerState;
+  }
+
+  set state(value: CharacterStates) {
+    this.playerState = value;
+    new Map([
+      [CharacterStates.BLINK, () => { this.blinking(); }],
+      [CharacterStates.LOSE, () => { this.player.visible = false; }],
+      [CharacterStates.WIN, () => { this.player.play(this.assetsModel.getAnimationId('jump'), true); }],
+      [CharacterStates.NORMAL, () => { }],
+    ]).get(this.playerState)();
+  }
+
+  private blinking() {
     this.scene.tweens.add({
       targets: this.player,
       alpha: 1,
       duration: 100,
       ease: 'Linear',
       repeat: 5,
+      onComplete: () => { this.state = CharacterStates.NORMAL; },
     });
   }
 
@@ -60,16 +79,16 @@ export class PlayerComponent {
     const cursors = this.scene.input.keyboard.createCursorKeys();
 
     if (cursors.left.isDown) {
-      this.horizonalMove(-1 * PLAYER_VELOCITY.X, 'walk');
+      this.horizonalMove(-1 * PLAYER_VELOCITY.X, this.assetsModel.getAnimationId('walk'));
     } else if (cursors.right.isDown) {
-      this.horizonalMove(PLAYER_VELOCITY.X, 'walk');
+      this.horizonalMove(PLAYER_VELOCITY.X, this.assetsModel.getAnimationId('walk'));
     } else {
-      this.horizonalMove(0, 'idle');
+      this.horizonalMove(0, this.assetsModel.getAnimationId('idle'));
     }
 
     if ((cursors.space.isDown || cursors.up.isDown) && this.player.body.onFloor()) {
       this.player.setVelocityY(-1 * PLAYER_VELOCITY.Y);
-      this.player.play('jump', true);
+      this.player.play(this.assetsModel.getAnimationId('jump'), true);
     }
 
     if (this.player.body.velocity.x > 0) {

@@ -1,0 +1,7 @@
+[
+  { "id": "background", "position": [0, 0]},
+  { "id": "button", "position": [233, 329]},
+  { "id": "buttonText", "position": [250, 341]},
+  { "id": "infoText", "position": [241, 215]},
+  { "id": "headerText", "position": [122, 95]}
+]

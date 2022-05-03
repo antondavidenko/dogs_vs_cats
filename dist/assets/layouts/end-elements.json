@@ -1,0 +1,7 @@
+[
+  { "id": "background", "type": "image", "key": "background" },
+  { "id": "button", "type": "image", "key": "button" },
+  { "id": "buttonText", "type": "text", "key": "buttonText", "style": "buttonTextStyle" },
+  { "id": "infoText", "type": "text", "key": "infoText", "style": "infoTextStyle" },
+  { "id": "headerText", "type": "text", "key": "headerText", "style": "headerTextStyle" }
+]

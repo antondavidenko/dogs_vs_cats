@@ -9,6 +9,11 @@
     "fill": "#3e433e",
     "align": "center"
   },
+  { "id": "infoTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#3e433e",
+    "align": "center"
+  },
   { "id": "buttonTextStyle",
     "fontFamily": "gamefont",
     "fill": "#3e433e",
