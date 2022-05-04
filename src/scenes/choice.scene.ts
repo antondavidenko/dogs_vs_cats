@@ -18,6 +18,10 @@ export class ChoiceScene extends Phaser.Scene {
     this.layout = new Layout<ChoiceLayoutList>(layoutConfig, this, 'choice', 'en');
   }
 
+  init() {
+    this.character = CharacterTypes.DOG;
+  }
+
   preload() {
     this.layout.preload();
   }
