@@ -1,3 +1,4 @@
+import { CharacterTypes } from '../../scenes';
 import { createOneFrameAnimation, createMultiFramesAnimation } from '../../utils';
 import { CharacterStates, PlayerAssetsModel, PLAYER_VELOCITY } from './player.model';
 
@@ -31,6 +32,8 @@ export class PlayerComponent {
     createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('idle'), 0, this.assetsModel.atlasId);
     createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('jump'), 1, this.assetsModel.atlasId);
     createMultiFramesAnimation(this.scene, this.assetsModel.getAnimationId('walk'), 2, 3, this.assetsModel.atlasId);
+
+    this.player.setFlipX(this.assetId === CharacterTypes.CAT);
   }
 
   update() {

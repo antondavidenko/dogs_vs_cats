@@ -1,6 +1,7 @@
 import { PlayerComponent, FpsMeterComponent, PlatformerHudComponent, BackgroundComponent } from '../components';
 import { CharacterStates } from '../components/player/player.model';
 import { createPlatforms, createTilemapObjectsLayer, promiseDelay } from '../utils';
+import { CharacterTypes } from './choice.scene';
 import { ScenesList } from './scenes-list';
 
 export class PlatformerScene extends Phaser.Scene {
@@ -11,6 +12,7 @@ export class PlatformerScene extends Phaser.Scene {
   private platformerData;
   private fpsMeter: FpsMeterComponent;
   private lastTime = 0;
+  private levelId: number;
 
   constructor() {
     super(ScenesList.PlatformerScene);
@@ -18,6 +20,7 @@ export class PlatformerScene extends Phaser.Scene {
 
   init(data) {
     this.player = new PlayerComponent(this, data.character);
+    this.levelId = data.character === CharacterTypes.DOG ? 1 : 2;
     this.background = new BackgroundComponent(this);
     this.platformerData = { max: 0, collected: 0, life: 3 };
   }
@@ -27,7 +30,7 @@ export class PlatformerScene extends Phaser.Scene {
     const frame64 = { frameWidth: 64, frameHeight: 64 };
     this.load.spritesheet('tiles', 'assets/images/platformer_tilesheet.png', frame64);
     this.player.preload();
-    this.load.tilemapTiledJSON('map', 'assets/levels/level1.json');
+    this.load.tilemapTiledJSON('map', `assets/levels/level${this.levelId}.json`);
   }
 
   create() {
@@ -65,8 +68,9 @@ export class PlatformerScene extends Phaser.Scene {
     this.player.update();
     const dx = Math.round(this.player.player.x);
     const dy = Math.round(this.player.player.y);
-    this.cameras.main.pan(dx, dy - 75, 0);
-    this.background.update(dx, dy);
+    const cameraY = dy - 75 < 2400 ? dy - 75 : 2400;
+    this.cameras.main.pan(dx, cameraY, 0);
+    this.background.update(dx, cameraY);
     this.hud.update();
   }
 
