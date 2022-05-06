@@ -1,6 +1,6 @@
-import { PlayerComponent, FpsMeterComponent, PlatformerHudComponent, BackgroundComponent } from '../components';
+import { PlayerComponent, FpsMeterComponent, PlatformerHudComponent, BackgroundComponent, LevelComponent } from '../components';
 import { CharacterStates } from '../components/player/player.model';
-import { createPlatforms, createTilemapObjectsLayer, promiseDelay } from '../utils';
+import { promiseDelay } from '../utils';
 import { CharacterTypes } from './choice.scene';
 import { ScenesList } from './scenes-list';
 
@@ -12,7 +12,7 @@ export class PlatformerScene extends Phaser.Scene {
   private platformerData;
   private fpsMeter: FpsMeterComponent;
   private lastTime = 0;
-  private levelId: number;
+  private level: LevelComponent;
 
   constructor() {
     super(ScenesList.PlatformerScene);
@@ -20,7 +20,8 @@ export class PlatformerScene extends Phaser.Scene {
 
   init(data) {
     this.player = new PlayerComponent(this, data.character);
-    this.levelId = data.character === CharacterTypes.DOG ? 1 : 2;
+    const levelId = data.character === CharacterTypes.DOG ? 1 : 2;
+    this.level = new LevelComponent(this, levelId);
     this.background = new BackgroundComponent(this);
     this.platformerData = { max: 0, collected: 0, life: 3 };
   }
@@ -30,45 +31,29 @@ export class PlatformerScene extends Phaser.Scene {
     const frame64 = { frameWidth: 64, frameHeight: 64 };
     this.load.spritesheet('tiles', 'assets/images/platformer_tilesheet.png', frame64);
     this.player.preload();
-    this.load.tilemapTiledJSON('map', `assets/levels/level${this.levelId}.json`);
+    this.level.preload();
   }
 
   create() {
-    this.physics.world.setFPS(300);
-
-    const map = this.make.tilemap({ key: 'map' });
-
     this.background.create();
-
-    const respawnSprite = createTilemapObjectsLayer(map, this, 'Respawn', 2).children.entries[0];
-    this.player.create(respawnSprite);
-    respawnSprite.visible = false;
-
-    const finishGroup = createTilemapObjectsLayer(map, this, 'Finish', 2);
-    finishGroup.children.entries[1].visible = false;
-
-    const platforms = createPlatforms(map);
-    const spikes = createTilemapObjectsLayer(map, this, 'Spikes', 2);
-    const coins = createTilemapObjectsLayer(map, this, 'Coins', 2);
-    this.platformerData.max = coins.children.entries.length;
-    createTilemapObjectsLayer(map, this, 'Decor', 1);
-
-    this.hud = new PlatformerHudComponent(this);
-    this.physics.add.collider(this.player.player, spikes, this.hit, null, this);
-    this.physics.add.overlap(this.player.player, coins, this.collect, null, this);
-    this.physics.add.overlap(this.player.player, finishGroup, this.win, null, this);
-    this.physics.add.collider(this.player.player, platforms);
-
+    const levelPayload = this.level.create();
+    this.player.create(levelPayload.respawnPoint);
     this.fpsMeter = new FpsMeterComponent(this, false);
+    this.platformerData.max = levelPayload.coinsCount;
+    this.hud = new PlatformerHudComponent(this);
+
+    this.physics.add.collider(this.player.player, levelPayload.spikes, this.hit, null, this);
+    this.physics.add.overlap(this.player.player, levelPayload.coins, this.collect, null, this);
+    this.physics.add.overlap(this.player.player, levelPayload.finishGroup, this.win, null, this);
+    this.physics.add.collider(this.player.player, levelPayload.platforms);
   }
 
   update() {
     this.fpsMeter.update();
-
     this.player.update();
     const dx = Math.round(this.player.player.x);
     const dy = Math.round(this.player.player.y);
-    const cameraY = dy - 75 < 2400 ? dy - 75 : 2400;
+    const cameraY = dy - 25 < 2400 ? dy - 25 : 2400;
     this.cameras.main.pan(dx, cameraY, 0);
     this.background.update(dx, cameraY);
     this.hud.update();

@@ -1,7 +1,7 @@
-export function createPlatforms(map) {
+export function createPlatforms(map: Phaser.Tilemaps.Tilemap) {
   const tileset = map.addTilesetImage('simple_platformer', 'tiles');
   const platforms = map.createLayer('Platforms', tileset, 0, 2000);
-  platforms.setCollisionByExclusion(-1, true);
+  platforms.setCollisionByExclusion([-1], true);
   return platforms;
 }
 

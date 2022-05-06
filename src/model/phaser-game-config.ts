@@ -1,16 +1,19 @@
 import { ChoiceScene, PlatformerScene, EndScene } from '../scenes';
 
+const SCREEN_WIDTH = 640;
+const SCREEN_HEIGTH = 480;
+
 export const PHASER_GAME_CONFIG = {
   type: Phaser.AUTO,
   parent: 'game',
-  width: 640,
-  heigth: 480,
+  width: SCREEN_WIDTH,
+  heigth: SCREEN_HEIGTH,
   scale: {
     mode: Phaser.Scale.FIT,
     parent: 'game',
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 640,
-    height: 480,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGTH,
   },
   scene: [ChoiceScene, PlatformerScene, EndScene],
   physics: {
