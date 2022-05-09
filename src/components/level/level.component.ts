@@ -11,6 +11,8 @@ export class LevelComponent {
 
   preload() {
     this.scene.load.tilemapTiledJSON(this.assetsModel.id, this.assetsModel.asset);
+    const frame64 = { frameWidth: 64, frameHeight: 64 };
+    this.scene.load.spritesheet('tiles', 'assets/images/platformer_tilesheet.png', frame64);
   }
 
   create() {

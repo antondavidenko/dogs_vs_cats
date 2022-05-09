@@ -18,5 +18,15 @@
     "fontFamily": "gamefont",
     "fill": "#3e433e",
     "align": "center"
+  },
+  { "id": "lifeTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#ffffff",
+    "align": "center"
+  },
+  { "id": "coinsTextStyle",
+    "fontFamily": "gamefont",
+    "fill": "#ffffff",
+    "align": "center"
   }
 ]

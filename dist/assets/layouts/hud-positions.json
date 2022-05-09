@@ -1,0 +1,7 @@
+[
+  { "id": "background", "position": [0, 0]},
+  { "id": "coinsIco", "position": [29, 10]},
+  { "id": "lifeIco", "position": [447, 12]},
+  { "id": "coinsText", "position": [137, 0]},
+  { "id": "lifeText", "position": [550, 0]}
+]

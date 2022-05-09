@@ -19,6 +19,7 @@ export class PlatformerScene extends Phaser.Scene {
   }
 
   init(data) {
+    this.hud = new PlatformerHudComponent(this);
     this.player = new PlayerComponent(this, data.character);
     const levelId = data.character === CharacterTypes.DOG ? 1 : 2;
     this.level = new LevelComponent(this, levelId);
@@ -28,20 +29,18 @@ export class PlatformerScene extends Phaser.Scene {
 
   preload() {
     this.background.preload();
-    const frame64 = { frameWidth: 64, frameHeight: 64 };
-    this.load.spritesheet('tiles', 'assets/images/platformer_tilesheet.png', frame64);
+    this.hud.preload();
     this.player.preload();
     this.level.preload();
   }
 
-  create() {
+  async create() {
     this.background.create();
     const levelPayload = this.level.create();
     this.player.create(levelPayload.respawnPoint);
     this.fpsMeter = new FpsMeterComponent(this, false);
     this.platformerData.max = levelPayload.coinsCount;
-    this.hud = new PlatformerHudComponent(this);
-
+    await this.hud.create();
     this.physics.add.collider(this.player.player, levelPayload.spikes, this.hit, null, this);
     this.physics.add.overlap(this.player.player, levelPayload.coins, this.collect, null, this);
     this.physics.add.overlap(this.player.player, levelPayload.finishGroup, this.win, null, this);

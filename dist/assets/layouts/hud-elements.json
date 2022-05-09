@@ -1,0 +1,7 @@
+[
+  { "id": "background", "type": "image", "key": "background" },
+  { "id": "coinsIco", "type": "image", "key": "coinsIco" },
+  { "id": "lifeIco", "type": "image", "key": "lifeIco" },
+  { "id": "coinsText", "type": "text", "key": "coinsText", "style": "coinsTextStyle" },
+  { "id": "lifeText", "type": "text", "key": "lifeText", "style": "lifeTextStyle" }
+]

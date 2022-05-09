@@ -1,4 +1,6 @@
-[ 
+[
+  { "id": "lifeText", "text": "0", "size": "40" },
+  { "id": "coinsText", "text": "0", "size": "40" },
   { "id": "infoText", "text": "RESULT", "size": "40" },
   { "id": "headerText", "text": "DOGS VS CATS", "size": "70" },
   { "id": "selectText", "text": "SELECT CHARACTER", "size": "40" },

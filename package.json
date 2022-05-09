@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "layout-export:choice": "node node_modules\\@antondavidenko\\layout-tools-export-psd\\build\\index.js choice",
-    "layout-export:level": "node node_modules\\@antondavidenko\\layout-tools-export-psd\\build\\index.js level",
+    "layout-export:hud": "node node_modules\\@antondavidenko\\layout-tools-export-psd\\build\\index.js hud",
     "layout-export:end": "node node_modules\\@antondavidenko\\layout-tools-export-psd\\build\\index.js end",
     "start": "webpack",
     "build": "webpack --config webpack.production.config.js",
