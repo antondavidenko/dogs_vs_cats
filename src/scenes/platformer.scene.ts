@@ -1,7 +1,6 @@
 import { PlayerComponent, FpsMeterComponent, PlatformerHudComponent, BackgroundComponent, LevelComponent } from '../components';
 import { CharacterStates } from '../components/player/player.model';
 import { promiseDelay } from '../utils';
-import { CharacterTypes } from './choice.scene';
 import { ScenesList } from './scenes-list';
 
 export class PlatformerScene extends Phaser.Scene {
@@ -21,8 +20,7 @@ export class PlatformerScene extends Phaser.Scene {
   init(data) {
     this.hud = new PlatformerHudComponent(this);
     this.player = new PlayerComponent(this, data.character);
-    const levelId = data.character === CharacterTypes.DOG ? 1 : 2;
-    this.level = new LevelComponent(this, levelId);
+    this.level = new LevelComponent(this, data.level);
     this.background = new BackgroundComponent(this);
     this.platformerData = { max: 0, collected: 0, life: 3 };
   }
@@ -44,7 +42,9 @@ export class PlatformerScene extends Phaser.Scene {
     this.physics.add.collider(this.player.player, levelPayload.spikes, this.hit, null, this);
     this.physics.add.overlap(this.player.player, levelPayload.coins, this.collect, null, this);
     this.physics.add.overlap(this.player.player, levelPayload.finishGroup, this.win, null, this);
+    this.physics.add.overlap(this.player.player, levelPayload.checkPoints, this.check, null, this);
     this.physics.add.collider(this.player.player, levelPayload.platforms);
+    this.physics.add.collider(this.player.player, levelPayload.base);
   }
 
   update() {
@@ -52,9 +52,12 @@ export class PlatformerScene extends Phaser.Scene {
     this.player.update();
     const dx = Math.round(this.player.player.x);
     const dy = Math.round(this.player.player.y);
-    const cameraY = dy - 25 < 2400 ? dy - 25 : 2400;
+    const maxY = 5850;
+    const cameraY = dy - 25 < maxY ? dy - 25 : maxY;
     this.cameras.main.pan(dx, cameraY, 0);
-    this.background.update(dx, cameraY);
+    const maxBgY = 5625;
+    const BgY = dy - 25 < maxBgY ? dy - 25 : maxBgY;
+    this.background.update(dx, BgY);
     this.hud.update();
   }
 
@@ -86,6 +89,10 @@ export class PlatformerScene extends Phaser.Scene {
       await promiseDelay(500);
       this.scene.start(ScenesList.EndScene, { win: true });
     }
+  }
+
+  private check(player, item) {
+    this.player.setRespawnPoint(item);
   }
 
 }

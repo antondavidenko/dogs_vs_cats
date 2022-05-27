@@ -1,8 +1,12 @@
 [
+  { "id": "MOVE_KEYS", "text": "USE\n'LEFT' AND 'RIGHT'\nKEYS FOR MOVE", "size": "24" },
+  { "id": "JUMP_KEY", "text": "  USE 'UP' KEY\n  FOR JUMP", "size": "32" },
+  { "id": "COLLECT", "text": "     COLLECT\n     COINS", "size": "32" },
+  { "id": "OBSTACLES", "text": "   AVOID\n   OBSTACLES", "size": "32" },
   { "id": "lifeText", "text": "0", "size": "40" },
   { "id": "coinsText", "text": "0", "size": "40" },
   { "id": "infoText", "text": "RESULT", "size": "40" },
-  { "id": "headerText", "text": "DOGS VS CATS", "size": "70" },
-  { "id": "selectText", "text": "SELECT CHARACTER", "size": "40" },
+  { "id": "headerText", "text": "DOG & CAT", "size": "100" },
+  { "id": "selectText", "text": "SELECT LEVEL", "size": "40" },
   { "id": "buttonText", "text": "START", "size": "40" }
 ]

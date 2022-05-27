@@ -1,7 +1,7 @@
 import { ChoiceScene, PlatformerScene, EndScene } from '../scenes';
 
-const SCREEN_WIDTH = 640;
-const SCREEN_HEIGTH = 480;
+const SCREEN_WIDTH = 1280;
+const SCREEN_HEIGTH = 960;
 
 export const PHASER_GAME_CONFIG = {
   type: Phaser.AUTO,

@@ -1,12 +1,11 @@
 [
   { "id": "background", "type": "image", "key": "background" },
-  { "id": "button", "type": "image", "key": "button" },
-  { "id": "buttonText", "type": "text", "key": "buttonText", "style": "buttonTextStyle" },
   { "id": "selectText", "type": "text", "key": "selectText", "style": "selectTextStyle" },
   { "id": "headerText", "type": "text", "key": "headerText", "style": "headerTextStyle" },
-  { "id": "backgroundCat", "type": "image", "key": "backgroundCat" },
-  { "id": "avatarCat", "type": "image", "key": "avatarCat" },
-  { "id": "backgroundDog", "type": "image", "key": "backgroundDog" },
-  { "id": "avatarDog", "type": "image", "key": "avatarDog" },
-  { "id": "avatarSelection", "type": "image", "key": "avatarSelection" }
+  { "id": "level1Point", "type": "image", "key": "level1Point" },
+  { "id": "level2Point", "type": "image", "key": "level2Point" },
+  { "id": "level3Point", "type": "image", "key": "level3Point" },
+  { "id": "level4Point", "type": "image", "key": "level4Point" },
+  { "id": "level5Point", "type": "image", "key": "level5Point" },
+  { "id": "level6Point", "type": "image", "key": "level6Point" }
 ]

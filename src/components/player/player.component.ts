@@ -14,26 +14,36 @@ export class PlayerComponent {
   }
 
   preload(): void {
-    const frame96 = { frameWidth: 96, frameHeight: 96 };
-    this.scene.load.spritesheet(this.assetsModel.atlasId, `assets/images/player_${this.assetId}.png`, frame96);
+    this.scene.load.spritesheet(
+      this.assetsModel.atlasId,
+      this.assetsModel.atlasUrl,
+      { frameWidth: 192 },
+    );
   }
 
   create(respawnPoint: Phaser.Geom.Point): void {
-    const { x, y } = respawnPoint;
-    this.respawnPoint = new Phaser.Geom.Point(x + 34, y + 18);
-    // eslint-disable-next-line max-len
-    this.player = this.scene.physics.add.sprite(this.respawnPoint.x, this.respawnPoint.y, this.assetsModel.atlasId);
+    this.setRespawnPoint(respawnPoint);
+    this.player = this.scene.physics.add.sprite(
+      this.respawnPoint.x,
+      this.respawnPoint.y,
+      this.assetsModel.atlasId,
+    );
     this.player.setBounce(0.2);
-    this.player.body.width = 60;
-    this.player.body.height = 60;
-    this.player.body.offset = { x: 18, y: 36 };
+    this.player.body.width = 120;
+    this.player.body.height = 120;
+    this.player.body.offset = { x: 36, y: 72 };
     this.player.setDepth(10);
 
     createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('idle'), 0, this.assetsModel.atlasId);
     createOneFrameAnimation(this.scene, this.assetsModel.getAnimationId('jump'), 1, this.assetsModel.atlasId);
-    createMultiFramesAnimation(this.scene, this.assetsModel.getAnimationId('walk'), 2, 3, this.assetsModel.atlasId);
+    createMultiFramesAnimation(this.scene, this.assetsModel.getAnimationId('walk'), 2, 0, this.assetsModel.atlasId);
 
     this.player.setFlipX(this.assetId === CharacterTypes.CAT);
+  }
+
+  setRespawnPoint(respawnPoint: Phaser.Geom.Point): void {
+    const { x, y } = respawnPoint;
+    this.respawnPoint = new Phaser.Geom.Point(x + 68, y);
   }
 
   update() {

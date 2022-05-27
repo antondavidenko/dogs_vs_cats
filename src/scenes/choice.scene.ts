@@ -8,40 +8,51 @@ export enum CharacterTypes {
   CAT = 'cat',
 }
 
+const levelMap = [
+  CharacterTypes.DOG,
+  CharacterTypes.DOG,
+  CharacterTypes.DOG,
+  CharacterTypes.CAT,
+  CharacterTypes.CAT,
+  CharacterTypes.CAT,
+];
+
 export class ChoiceScene extends Phaser.Scene {
 
   private layout: Layout<ChoiceLayoutList>;
-  private character: CharacterTypes = CharacterTypes.DOG;
 
   constructor() {
     super(ScenesList.ChoiceScene);
     this.layout = new Layout<ChoiceLayoutList>(layoutConfig, this, 'choice', 'en');
   }
 
-  init() {
-    this.character = CharacterTypes.DOG;
-  }
-
   preload() {
     this.layout.preload();
+    this.load.image('bgAvatar', 'assets/layouts/choice/bgAvatar.png');
+    this.load.image('avatarCat', 'assets/layouts/choice/avatarCat.png');
+    this.load.image('avatarDog', 'assets/layouts/choice/avatarDog.png');
   }
 
   async create() {
     await this.layout.create();
+    for (let i = 1; i <= 6; i++) {
+      createButton(this.layout.list[`level${i}Point`], () => {
+        // todo: use it when all levels and charackters will be ready
+        // this.scene.start(ScenesList.PlatformerScene, { character: levelMap[i - 1], level: i });
+        this.scene.start(ScenesList.PlatformerScene, { character: CharacterTypes.DOG, level: 3 });
+      });
+    }
+    this.addMarker(this.layout.list.level1Point, CharacterTypes.DOG);
+    this.addMarker(this.layout.list.level6Point, CharacterTypes.CAT);
+  }
 
-    createButton(this.layout.list.button, () => {
-      this.scene.start(ScenesList.PlatformerScene, { character: this.character });
-    });
-
-    createButton(this.layout.list.backgroundCat, () => {
-      this.layout.list.avatarSelection.x = this.layout.list.avatarCat.x - 21;
-      this.character = CharacterTypes.CAT;
-    });
-
-    createButton(this.layout.list.backgroundDog, () => {
-      this.layout.list.avatarSelection.x = this.layout.list.avatarDog.x - 21;
-      this.character = CharacterTypes.DOG;
-    });
+  addMarker(point: Phaser.GameObjects.Image, type: CharacterTypes): void {
+    this.add.image(point.x + 42, point.y - 40, 'bgAvatar');
+    if (type === CharacterTypes.DOG) {
+      this.add.image(point.x + 42, point.y - 50, 'avatarDog');
+    } else {
+      this.add.image(point.x + 40, point.y - 53, 'avatarCat');
+    }
   }
 
 }

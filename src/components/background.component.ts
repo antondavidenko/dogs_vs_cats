@@ -5,11 +5,11 @@ export class BackgroundComponent {
   constructor(private scene: Phaser.Scene) { }
 
   preload(): void {
-    this.scene.load.image('background', 'assets/images/background.png');
+    this.scene.load.image('background', 'assets/images/level1bg.jpg');
   }
 
   create(): void {
-    this.backgroundImage = this.scene.add.image(0, 0, 'background').setOrigin(0, 0).setScale(2, 0.8);
+    this.backgroundImage = this.scene.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.01, 1.01);
   }
 
   update(dx: number, dy: number): void {

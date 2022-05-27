@@ -27,7 +27,6 @@
         {
          "draworder":"topdown",
          "id":8,
-         "locked":true,
          "name":"Decor",
          "objects":[
                 {
@@ -517,7 +516,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":223,
+ "nextobjectid":224,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

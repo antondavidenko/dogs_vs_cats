@@ -1,12 +1,11 @@
 [
   { "id": "background", "position": [0, 0]},
-  { "id": "button", "position": [233, 363]},
-  { "id": "buttonText", "position": [251, 368]},
-  { "id": "selectText", "position": [87, 292]},
-  { "id": "headerText", "position": [24, 36]},
-  { "id": "backgroundCat", "position": [367, 152]},
-  { "id": "avatarCat", "position": [392, 175]},
-  { "id": "backgroundDog", "position": [161, 152]},
-  { "id": "avatarDog", "position": [184, 177]},
-  { "id": "avatarSelection", "position": [165, 157]}
+  { "id": "selectText", "position": [489, 260]},
+  { "id": "headerText", "position": [354, 100]},
+  { "id": "level1Point", "position": [120, 597]},
+  { "id": "level2Point", "position": [317, 759]},
+  { "id": "level3Point", "position": [547, 696]},
+  { "id": "level4Point", "position": [682, 570]},
+  { "id": "level5Point", "position": [859, 518]},
+  { "id": "level6Point", "position": [1075, 508]}
 ]
