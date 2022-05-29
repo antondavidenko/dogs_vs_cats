@@ -2,14 +2,16 @@ export class BackgroundComponent {
 
   private backgroundImage: Phaser.GameObjects.Image;
 
-  constructor(private scene: Phaser.Scene) { }
+  constructor(private scene: Phaser.Scene, private levelId: number) { }
 
   preload(): void {
-    this.scene.load.image('background', 'assets/images/level1bg.jpg');
+    this.scene.load.image(`level${this.levelId}bg`, `assets/images/level${this.levelId}bg.jpg`);
   }
 
   create(): void {
-    this.backgroundImage = this.scene.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.01, 1.01);
+    this.backgroundImage = this.scene.add.image(0, 0, `level${this.levelId}bg`)
+      .setOrigin(0, 0)
+      .setScale(1.01, 1.01);
   }
 
   update(dx: number, dy: number): void {

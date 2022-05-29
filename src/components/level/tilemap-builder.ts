@@ -5,10 +5,10 @@ type ArcadeGroup = Phaser.Physics.Arcade.Group;
 
 export class TilemapBuilder {
 
-  constructor(private map: Phaser.Tilemaps.Tilemap) {}
+  constructor(private map: Phaser.Tilemaps.Tilemap, private levelId: number) {}
 
   createTiles(layerId: string) {
-    const tileset = this.map.addTilesetImage('tilesheet_128', 'tiles');
+    const tileset = this.map.addTilesetImage(`level${this.levelId}tilesheet`, 'tiles');
     const platforms = this.map.createLayer(layerId, tileset, 0, 2000);
     platforms.setCollisionByExclusion([-1], true);
     return platforms;

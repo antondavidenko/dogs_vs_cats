@@ -21,7 +21,7 @@ export class PlatformerScene extends Phaser.Scene {
     this.hud = new PlatformerHudComponent(this);
     this.player = new PlayerComponent(this, data.character);
     this.level = new LevelComponent(this, data.level);
-    this.background = new BackgroundComponent(this);
+    this.background = new BackgroundComponent(this, data.level);
     this.platformerData = { max: 0, collected: 0, life: 3 };
   }
 
@@ -78,12 +78,12 @@ export class PlatformerScene extends Phaser.Scene {
     this.lastTime = new Date().getTime();
   }
 
-  private collect(player, item): void {
+  private collect(_player, item): void {
     item.destroy();
     this.platformerData.collected++;
   }
 
-  private async win(player, item) {
+  private async win() {
     if (this.player.state === CharacterStates.NORMAL) {
       this.player.state = CharacterStates.WIN;
       await promiseDelay(500);
@@ -91,7 +91,7 @@ export class PlatformerScene extends Phaser.Scene {
     }
   }
 
-  private check(player, item) {
+  private check(_player, item) {
     this.player.setRespawnPoint(item);
   }
 

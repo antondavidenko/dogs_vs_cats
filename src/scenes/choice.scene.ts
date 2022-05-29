@@ -39,7 +39,8 @@ export class ChoiceScene extends Phaser.Scene {
       createButton(this.layout.list[`level${i}Point`], () => {
         // todo: use it when all levels and charackters will be ready
         // this.scene.start(ScenesList.PlatformerScene, { character: levelMap[i - 1], level: i });
-        this.scene.start(ScenesList.PlatformerScene, { character: CharacterTypes.DOG, level: 3 });
+        const level = levelMap[i - 1] === CharacterTypes.DOG ? 1 : 6;
+        this.scene.start(ScenesList.PlatformerScene, { character: levelMap[i - 1], level });
       });
     }
     this.addMarker(this.layout.list.level1Point, CharacterTypes.DOG);
