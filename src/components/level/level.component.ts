@@ -10,14 +10,15 @@ export class LevelComponent {
   }
 
   preload() {
-    this.scene.load.tilemapTiledJSON(this.assetsModel.id, this.assetsModel.asset);
-    this.scene.load.spritesheet('tiles', `assets/images/level${this.levelId}tilesheet.png`, { frameWidth: 128 });
+    const { id, asset, tilesId, tilesUrl } = this.assetsModel;
+    this.scene.load.tilemapTiledJSON(id, asset);
+    this.scene.load.spritesheet(tilesId, tilesUrl, { frameWidth: 128 });
   }
 
   create() {
     this.scene.physics.world.setFPS(300);
     const map = this.scene.make.tilemap({ key: this.assetsModel.id });
-    const builder = new TilemapBuilder(map, this.levelId);
+    const builder = new TilemapBuilder(map, this.assetsModel);
     const checkPoints = builder.createObjects('Respawn', 2);
     const respawnSprite = checkPoints.children.entries[0] as Phaser.GameObjects.Image;
     const finishGroup = builder.createObjects('Finish', 2);

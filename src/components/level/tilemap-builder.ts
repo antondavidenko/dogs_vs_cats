@@ -1,3 +1,5 @@
+import { LevelAssetsModel } from './level.model';
+
 const l10nId = 'en';
 
 type TiledObject = Phaser.Types.Tilemaps.TiledObject;
@@ -5,10 +7,10 @@ type ArcadeGroup = Phaser.Physics.Arcade.Group;
 
 export class TilemapBuilder {
 
-  constructor(private map: Phaser.Tilemaps.Tilemap, private levelId: number) {}
+  constructor(private map: Phaser.Tilemaps.Tilemap, private assetsModel: LevelAssetsModel) {}
 
   createTiles(layerId: string) {
-    const tileset = this.map.addTilesetImage(`level${this.levelId}tilesheet`, 'tiles');
+    const tileset = this.map.addTilesetImage(this.assetsModel.tilesId, this.assetsModel.tilesId);
     const platforms = this.map.createLayer(layerId, tileset, 0, 2000);
     platforms.setCollisionByExclusion([-1], true);
     return platforms;
@@ -24,7 +26,7 @@ export class TilemapBuilder {
         [6, this.createCoin],
       ]).get(currentObject.gid);
       creator = creator || this.createRegular;
-      const object = creator(currentObject, objectsGroup);
+      const object = creator.call(this, currentObject, objectsGroup);
       object.setDepth(depth);
     });
     return objectsGroup;
@@ -52,45 +54,43 @@ export class TilemapBuilder {
   }
 
   private createPlatform(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
-    const { x } = currentObject;
-    const y = currentObject.y + 2000 - currentObject.height;
-    const object = objectsGroup.create(x, y, 'tiles', currentObject.gid - 1).setOrigin(0, 0);
+    const { x, y, key, frame } = this.getCreateData(currentObject);
+    const object = objectsGroup.create(x, y, key, frame).setOrigin(0, 0);
     object.body.setSize(object.width, object.height - object.height / 2).setOffset(0, 0);
     return object;
   }
 
   private createRegular(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
-    const { x } = currentObject;
-    const y = currentObject.y + 2000 - currentObject.height;
-    const object = objectsGroup.create(x, y, 'tiles', currentObject.gid - 1).setOrigin(0, 0);
+    const { x, y, key, frame } = this.getCreateData(currentObject);
+    const object = objectsGroup.create(x, y, key, frame).setOrigin(0, 0);
     object.body.setSize(object.width, object.height - object.height);
     return object;
   }
 
   private createCoin(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
-    const { x } = currentObject;
-    const y = currentObject.y + 2000 - currentObject.height + 50;
-    const object = objectsGroup.create(x, y, 'tiles', currentObject.gid - 1).setOrigin(0, 0);
+    const { x, y, key, frame } = this.getCreateData(currentObject);
+    const object = objectsGroup.create(x, y + 50, key, frame).setOrigin(0, 0);
     object.body.setSize(object.width, object.height - object.height);
     return object;
   }
 
   private createFinish(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
-    const { x } = currentObject;
-    const y = currentObject.y + 2000 - currentObject.height;
-    const object = objectsGroup.create(x, y, 'tiles', currentObject.gid - 1).setOrigin(0, 0);
+    const { x, y, key, frame } = this.getCreateData(currentObject);
+    const object = objectsGroup.create(x, y, key, frame).setOrigin(0, 0);
     object.body.setSize(object.width, object.height * 20);
     return object;
   }
 
   private createStart(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
-    const { x } = currentObject;
-    const y = currentObject.y + 2000 - currentObject.height;
-    const object = objectsGroup.create(x, y, 'tiles', currentObject.gid - 1)
-      .setOrigin(0, 0)
-      .setVisible(false);
+    const { x, y, key, frame } = this.getCreateData(currentObject);
+    const object = objectsGroup.create(x, y, key, frame).setOrigin(0, 0).setVisible(false);
     object.body.setSize(object.width, object.height * 20);
     return object;
+  }
+
+  private getCreateData(currentObject: TiledObject) {
+    const y = currentObject.y + 2000 - currentObject.height;
+    return { x: currentObject.x, y, key: this.assetsModel.tilesId, frame: currentObject.gid - 1 };
   }
 
 }
