@@ -12,6 +12,7 @@ export class PlatformerScene extends Phaser.Scene {
   private fpsMeter: FpsMeterComponent;
   private lastTime = 0;
   private level: LevelComponent;
+  private heightInPixels: number;
 
   constructor() {
     super(ScenesList.PlatformerScene);
@@ -35,6 +36,7 @@ export class PlatformerScene extends Phaser.Scene {
   async create() {
     this.background.create();
     const levelPayload = this.level.create();
+    this.heightInPixels = levelPayload.heightInPixels;
     this.player.create(levelPayload.respawnPoint);
     this.fpsMeter = new FpsMeterComponent(this, false);
     this.platformerData.max = levelPayload.coinsCount;
@@ -52,10 +54,11 @@ export class PlatformerScene extends Phaser.Scene {
     this.player.update();
     const dx = Math.round(this.player.player.x);
     const dy = Math.round(this.player.player.y);
-    const maxY = 5850;
-    const cameraY = dy - 25 < maxY ? dy - 25 : maxY;
+    const maxY = this.heightInPixels + 1145;
+    const maxCamY = maxY + 225;
+    const cameraY = dy - 25 < maxCamY ? dy - 25 : maxCamY;
     this.cameras.main.pan(dx, cameraY, 0);
-    const maxBgY = 5625;
+    const maxBgY = maxY;
     const BgY = dy - 25 < maxBgY ? dy - 25 : maxBgY;
     this.background.update(dx, BgY);
     this.hud.update();

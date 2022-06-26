@@ -10,9 +10,12 @@ export class TilemapBuilder {
   constructor(private map: Phaser.Tilemaps.Tilemap, private assetsModel: LevelAssetsModel) {}
 
   createTiles(layerId: string) {
-    const tileset = this.map.addTilesetImage(this.assetsModel.tilesId, this.assetsModel.tilesId);
-    const platforms = this.map.createLayer(layerId, tileset, 0, 2000);
-    platforms.setCollisionByExclusion([-1], true);
+    let platforms;
+    if (this.map.layers.find((layer) => layer.name === layerId)) {
+      const tileset = this.map.addTilesetImage(this.assetsModel.tilesId, this.assetsModel.tilesId);
+      platforms = this.map.createLayer(layerId, tileset, 0, 2000);
+      platforms.setCollisionByExclusion([-1], true);
+    }
     return platforms;
   }
 
@@ -20,8 +23,9 @@ export class TilemapBuilder {
     const objectsGroup = this.map.scene.physics.add.group({ allowGravity: false, immovable: true });
     this.map.getObjectLayer(layerId).objects.forEach((currentObject) => {
       let creator = new Map([
-        [2, this.createStart],
+        [2, this.createInvisible],
         [3, this.createFinish],
+        [4, this.createInvisible],
         [5, this.createPlatform],
         [6, this.createCoin],
       ]).get(currentObject.gid);
@@ -81,7 +85,7 @@ export class TilemapBuilder {
     return object;
   }
 
-  private createStart(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
+  private createInvisible(currentObject: TiledObject, objectsGroup: ArcadeGroup) {
     const { x, y, key, frame } = this.getCreateData(currentObject);
     const object = objectsGroup.create(x, y, key, frame).setOrigin(0, 0).setVisible(false);
     object.body.setSize(object.width, object.height * 20);

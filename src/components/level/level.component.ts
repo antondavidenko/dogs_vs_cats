@@ -25,6 +25,7 @@ export class LevelComponent {
     const base = builder.createTiles('Base');
     builder.createTiles('Decor');
     builder.createTiles('Decor2');
+    builder.createTiles('Decor3');
     const spikes = builder.createObjects('Spikes', 2);
     const coins = builder.createObjects('Coins', 2);
     const platforms = builder.createObjects('Platforms', 2);
@@ -39,6 +40,7 @@ export class LevelComponent {
       finishGroup,
       checkPoints,
       coins,
+      heightInPixels: map.heightInPixels,
     };
   }
 
